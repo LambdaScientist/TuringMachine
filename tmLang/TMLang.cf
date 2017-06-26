@@ -1,0 +1,35 @@
+entrypoints Program ;
+comment ";" ;
+
+-- token TMIdent ((letter | digit )+) ;
+-- Using http://morphett.info/turing/turing.html
+-- Syntax:
+-- Each line should contain one tuple of the form '<current state> <current symbol> <new symbol> <direction> <new state>'.
+-- You can use any number or word for <current state> and <new state>, eg. 10, a, state1. State labels are case-sensitive.
+-- You can use any character for <current symbol> and <new symbol>, or '_' to represent blank (space). Symbols are case-sensitive.
+-- <direction> should be 'l', 'r' or '*', denoting 'move left', 'move right' or 'do not move', respectively.
+-- Anything after a ';' is a comment and is ignored.
+-- The machine halts when it reaches any state starting with 'halt', eg. halt, halt-accept.
+
+
+-- <current state> <current symbol> <new symbol> <direction> <new state>
+
+State . State ::= Ident ;
+
+NAccept . NextCommand ::= "accept" ;
+NReject . NextCommand ::= "reject" ;
+NContinue . NextCommand ::= State ;
+
+
+SWild . Symbol ::= "*" ;
+SBlank . Symbol ::= "_" ;
+STrue . Symbol ::= "1" ;
+SFalse . Symbol ::= "0" ;
+
+DStay . Direction ::= "*" ;
+DLeft . Direction ::= "l" ;
+DRight . Direction ::= "r" ;
+
+Instruction . Instruction ::= State Symbol Symbol Direction NextCommand;
+terminator Instruction "" ;
+Program . Program ::= [Instruction] ;
